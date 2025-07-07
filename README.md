@@ -21,6 +21,11 @@ This project is a full-stack user management dashboard with authentication, role
 
    The backend seeds this admin user on first run if it does not exist.
 
+3. **API Documentation (Swagger):**
+
+   - Once the backend is running, visit: [http://localhost:3000/api](http://localhost:3000/api)
+   - This provides an interactive Swagger UI with all available endpoints, request/response schemas, and authentication details.
+
 ---
 
 ## 🗂️ Project Structure
@@ -34,6 +39,7 @@ This project is a full-stack user management dashboard with authentication, role
   - `src/utils/` — Utility types and transformers
   - **Seeding:** Admin user is seeded on app bootstrap in `user.service.ts`
   - **Role-based access:** Guards and decorators restrict endpoints to admins
+  - **API Docs:** Swagger UI at `/api` for all endpoints
 
 ### Frontend (`/user-dashboard`)
 
@@ -56,6 +62,7 @@ This project is a full-stack user management dashboard with authentication, role
 - **Seeded admin:** Ensures there's always an admin to bootstrap the system.
 - **NgRx:** Ensures consistent state management and easier debugging.
 - **Modern SCSS:** Custom styles for a clean, responsive dashboard and modal dialogs.
+- **Swagger:** API documentation for easy backend exploration and testing.
 
 ---
 
