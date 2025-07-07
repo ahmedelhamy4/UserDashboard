@@ -1,0 +1,25 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-container">
+  <div class="form-wrapper">
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input pInputText id="email" type="text" formControlName="email" />
+    </div>
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input pInputText id="password" type="password" formControlName="password" />
+    </div>
+    <div class="input-group">
+      <button pButton type="submit" label="Login" icon="pi pi-user"></button>
+    </div>
+  </div>
+
+  <div class="divider-wrapper">
+    <!-- <p-divider layout="vertical"><b>OR</b></p-divider> -->
+  </div>
+
+  <div class="form-wrapper">
+    <div class="input-group">
+      <button pButton type="button" (click)="onRegister()" label="Sign Up" icon="pi pi-user-plus" severity="success"></button>
+    </div>
+  </div>
+</form>
