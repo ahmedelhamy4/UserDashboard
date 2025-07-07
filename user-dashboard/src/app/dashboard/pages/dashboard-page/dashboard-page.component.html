@@ -1,11 +1,13 @@
 <div class="flex flex-row items-center justify-between mb-4">
-  <h2 *ngIf="currentUserEmail">Welcome, {{ currentUserEmail }}</h2>
+  <h2 *ngIf="currentUserEmail" class="m-0">Welcome, {{ currentUserEmail }}</h2>
+  <div style="flex: 1"></div>
   <button
     *ngIf="currentUserEmail"
     pButton
     type="button"
     label="Logout"
     (click)="logout()"
+    class="ml-auto"
   ></button>
 </div>
 <h3>Users</h3>
