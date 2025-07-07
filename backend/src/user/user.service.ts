@@ -79,8 +79,11 @@ export class UserService implements OnApplicationBootstrap {
   }
 
   async update(id: number, data: Partial<User>): Promise<User> {
-    if (data.password) {
+    // Only update password if a new, non-empty password is provided
+    if (data.password && data.password.trim() !== '') {
       data.password = await bcrypt.hash(data.password, 10);
+    } else {
+      delete data.password;
     }
 
     await this.userRepo.update(id, data);

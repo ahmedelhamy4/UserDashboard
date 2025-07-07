@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { JwtUtil } from '../../../auth/services/jwt.util';
 
 @Component({
   standalone: true,
@@ -28,8 +29,17 @@ export class DashboardPageComponent implements OnInit {
   editDialogVisible = false;
   selectedUser: any = null;
   editForm!: FormGroup;
+  currentUserRole: 'admin' | 'user' | null = null;
+  currentUserEmail: string | null = null;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {}
+  constructor(private http: HttpClient, private fb: FormBuilder) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JwtUtil.decodeToken(token);
+      this.currentUserRole = payload?.role ?? null;
+      this.currentUserEmail = payload?.email ?? null;
+    }
+  }
 
   ngOnInit(): void {
     this.http
@@ -39,7 +49,7 @@ export class DashboardPageComponent implements OnInit {
         },
       })
       .subscribe({
-        next: (data) => (this.users = data),
+        next: (data) => (this.users = data.sort((a, b) => a.id - b.id)),
         error: (err) => console.error('Error fetching users', err),
       });
   }
@@ -55,8 +65,9 @@ export class DashboardPageComponent implements OnInit {
 
   onEditSubmit() {
     if (this.editForm.invalid || !this.selectedUser) return;
+    const { password, ...rest } = this.selectedUser;
     const updatedUser = {
-      ...this.selectedUser,
+      ...rest,
       ...this.editForm.value,
     };
     this.http
@@ -69,8 +80,39 @@ export class DashboardPageComponent implements OnInit {
         next: (user) => {
           this.users = this.users.map((u) => (u.id === user.id ? user : u));
           this.editDialogVisible = false;
+          // If the current user changed their own role from admin to user, log them out
+          if (
+            user.email === this.currentUserEmail &&
+            this.currentUserRole === 'admin' &&
+            user.role === 'user'
+          ) {
+            this.logout();
+          }
         },
         error: (err) => console.error('Error updating user', err),
       });
+  }
+
+  deleteUser() {
+    if (!this.selectedUser) return;
+    if (!confirm('Are you sure you want to delete this user?')) return;
+    this.http
+      .delete<any>(`http://localhost:3000/user/${this.selectedUser.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .subscribe({
+        next: () => {
+          this.users = this.users.filter((u) => u.id !== this.selectedUser.id);
+          this.editDialogVisible = false;
+        },
+        error: (err) => console.error('Error deleting user', err),
+      });
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
   }
 }
