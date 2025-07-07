@@ -7,6 +7,7 @@ import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideStore } from '@ngrx/store';
 import { authReducer } from './auth/store/auth.reducer';
+// import { dashboardReducer } from './dashboard/store/dashboard.reducer';
 import { dashboardReducer } from './dashboard/store/dashboard.reducer';
 // import { AuthEffects } from './auth/store/auth.effects';
 // import { DashboardEffects } from './dashboard/store/dashboard.effects';
