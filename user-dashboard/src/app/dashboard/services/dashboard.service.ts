@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../auth/models/user.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
-  private baseUrl = 'http://localhost:3000/user';
+  private baseUrl = environment.apiBaseUrl + '/user';
 
   constructor(private http: HttpClient) {}
 

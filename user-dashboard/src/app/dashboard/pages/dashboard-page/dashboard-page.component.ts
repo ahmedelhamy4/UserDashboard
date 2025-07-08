@@ -11,6 +11,7 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { JwtUtil } from '../../../auth/services/jwt.util';
+import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
   standalone: true,
@@ -32,7 +33,11 @@ export class DashboardPageComponent implements OnInit {
   currentUserRole: 'admin' | 'user' | null = null;
   currentUserEmail: string | null = null;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private dashboardService: DashboardService
+  ) {
     const token = localStorage.getItem('token');
     if (token) {
       const payload = JwtUtil.decodeToken(token);
@@ -42,16 +47,10 @@ export class DashboardPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http
-      .get<any[]>('http://localhost:3000/user', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-      .subscribe({
-        next: (data) => (this.users = data.sort((a, b) => a.id - b.id)),
-        error: (err) => console.error('Error fetching users', err),
-      });
+    this.dashboardService.getUsers().subscribe({
+      next: (data) => (this.users = data.sort((a, b) => a.id - b.id)),
+      error: (err) => console.error('Error fetching users', err),
+    });
   }
 
   openEditDialog(user: any) {
