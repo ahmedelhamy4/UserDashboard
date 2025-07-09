@@ -5,7 +5,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://userdashboard-6jo.pages.dev'],
+    origin: [
+      'http://localhost:4200',
+      'https://3c7d9a80.userdashboard-6jo.pages.dev',
+    ],
     credentials: true,
   });
 
