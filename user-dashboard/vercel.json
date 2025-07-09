@@ -1,11 +1,10 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "builds": [
     {
-      "src": "user-dashboard/angular.json",
+      "src": "angular.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "user-dashboard/dist/user-dashboard"
+        "distDir": "dist/user-dashboard"
       }
     }
   ],
