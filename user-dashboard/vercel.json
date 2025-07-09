@@ -1,12 +1,4 @@
 {
-  "builds": [
-    {
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/user-dashboard"
-      }
-    }
-  ],
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
